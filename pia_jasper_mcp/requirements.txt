@@ -1,0 +1,7 @@
+fastapi==0.95.2
+uvicorn[standard]==0.22.0
+httpx==0.24.1
+python-dotenv==1.0.0
+# MCP SDK package name may vary; ensure the MCP SDK providing mcp.server.fastmcp is installed
+# e.g. install the official SDK package required by your environment
+mcp
