@@ -10,15 +10,17 @@ Features
 - Optional MCP auth via `MCP_AUTH_TOKEN`
 - Optional CORS support
 
-Run locally (recommended):
+Local-only MCP stdio demo
 
-1. Copy `.env.example` to `.env` and fill values.
-2. Install deps and run:
+1. Copy `.env.example` to `.env` and fill `CC_BASE_URL`, `CC_JASPER_BEARER` and optional `CC_ALLOWED_ACCOUNT_IDS`.
+2. Install dependencies and run the MCP server locally via stdio transport:
 
-```bash
-python -m pip install -r requirements.txt
-uvicorn main:app --host 0.0.0.0 --port 8080
+```powershell
+python -m pip install -r pia_jasper_mcp/requirements.txt
+python -m pia_jasper_mcp
 ```
+
+The server runs as a local MCP server using stdio. This is a demo harness and does not expose HTTP endpoints.
 
 Docker / Cloud Run
 
