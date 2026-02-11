@@ -108,6 +108,10 @@ def run():
     job_id = str(uuid.uuid4())
     ts = datetime.utcnow().isoformat() + "Z"
 
+    # Teams-like immediate acceptance line
+    print(f"ACCEPTED: Job {job_id}")
+    sys.stdout.flush()
+
     # Launch MCP server subprocess
     cmd = [sys.executable, "-m", "pia_jasper_mcp"]
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -134,6 +138,17 @@ def run():
             result = {"error": str(e)}
             status = "FAILED"
 
+        # Teams-like completion line
+        print(f"COMPLETED: Job {job_id} ({status})")
+        # PROOF section: include API response JSON
+        print("PROOF:")
+        try:
+            proof_json = json.dumps(result, indent=2, sort_keys=True)
+        except Exception:
+            proof_json = str(result)
+        print(proof_json)
+
+        # Also print a structured receipt for programmatic use
         receipt = {
             "job_id": job_id,
             "timestamp": ts,
@@ -143,7 +158,7 @@ def run():
             "result": result,
         }
 
-        print(json.dumps(receipt, indent=2))
+        print('\n' + json.dumps(receipt, indent=2))
 
     finally:
         try:
