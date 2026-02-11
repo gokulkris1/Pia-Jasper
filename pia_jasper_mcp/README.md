@@ -22,6 +22,25 @@ python -m pia_jasper_mcp
 
 The server runs as a local MCP server using stdio. This is a demo harness and does not expose HTTP endpoints.
 
+Agent runner
+
+`agent_runner.py` is a tiny runner that launches the local MCP server as a subprocess and uses the MCP client SDK (stdio transport) to call tools.
+
+Usage (example):
+
+```powershell
+# Create input file 'cmd.txt' with the following content:
+JASPER_RUN
+operation: ECHO
+param: hello-three
+
+# Run the agent runner (reads input from stdin):
+python agent_runner.py < cmd.txt
+```
+
+The runner prints a JSON receipt with `job_id`, `timestamp`, `operation`, `tool`, `status`, and `result`.
+
+
 Docker / Cloud Run
 
 Build the image:
