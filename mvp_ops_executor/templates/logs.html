@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ops Executor Logs</title>
+  <style>
+    :root {
+      --bg: #f1f3ee;
+      --panel: #ffffff;
+      --line: #d7ddd2;
+      --ink: #20261f;
+      --muted: #617061;
+      --accent: #125a68;
+      --ok: #0f7a52;
+      --fail: #a3362a;
+      --pending: #9b6a12;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background:
+        radial-gradient(800px 500px at 100% -10%, rgba(18,90,104,0.12), transparent 60%),
+        radial-gradient(600px 400px at 0% 0%, rgba(15,122,82,0.08), transparent 60%),
+        var(--bg);
+      color: var(--ink);
+      padding: 20px;
+    }
+    .wrap {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(to right, #ffffff, #f8faf8);
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+    .muted { color: var(--muted); font-size: 0.9rem; }
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    button, a.button {
+      font: inherit;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: #fff;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 14px;
+    }
+    .table-wrap {
+      overflow: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid #eef0eb;
+      vertical-align: top;
+    }
+    th {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      background: #fbfcfb;
+      position: sticky;
+      top: 0;
+    }
+    tr:hover td {
+      background: #fbfdf9;
+    }
+    .status {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid #ddd;
+      background: #fff;
+      white-space: nowrap;
+    }
+    .status.EXECUTED_SUCCESS { color: var(--ok); border-color: rgba(15,122,82,0.25); background: rgba(15,122,82,0.06); }
+    .status.EXECUTED_FAILED, .status.CANCELLED { color: var(--fail); border-color: rgba(163,54,42,0.25); background: rgba(163,54,42,0.05); }
+    .status.NEEDS_CONFIRMATION, .status.RECEIVED { color: var(--pending); border-color: rgba(155,106,18,0.25); background: rgba(155,106,18,0.05); }
+    code.inline {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      background: #f5f7f4;
+      border: 1px solid #e7ebe4;
+      padding: 1px 5px;
+      border-radius: 6px;
+    }
+    .detail {
+      padding: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-height: 420px;
+    }
+    .detail-head {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+    pre {
+      margin: 0;
+      padding: 14px;
+      overflow: auto;
+      background: #fafcfb;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }
+    .empty {
+      padding: 16px;
+      color: var(--muted);
+    }
+    .message {
+      max-width: 360px;
+      color: var(--muted);
+    }
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+      .message { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <header>
+        <div>
+          <h1>Request Audit Logs</h1>
+          <div class="muted">SQLite-backed request timeline (parsed, validated, confirmation, execution)</div>
+        </div>
+        <div class="controls">
+          <a class="button" href="/">Chat</a>
+          <button id="refreshBtn" class="primary" type="button">Refresh</button>
+        </div>
+      </header>
+      <div class="grid" style="padding: 14px;">
+        <div class="panel table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Created</th>
+                <th>Request</th>
+                <th>Operation</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+        <div class="panel detail">
+          <div class="detail-head">
+            <div>
+              <div id="detailTitle"><strong>Details</strong></div>
+              <div id="detailSub" class="muted">Select a request to inspect event timeline</div>
+            </div>
+            <div id="detailLinks" class="controls"></div>
+          </div>
+          <pre id="detailJson" class="empty">No request selected.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const rowsEl = document.getElementById('rows');
+    const detailJsonEl = document.getElementById('detailJson');
+    const detailTitleEl = document.getElementById('detailTitle');
+    const detailSubEl = document.getElementById('detailSub');
+    const detailLinksEl = document.getElementById('detailLinks');
+    const refreshBtn = document.getElementById('refreshBtn');
+    let currentId = null;
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+    }
+
+    function shortId(id) {
+      return id ? `${id.slice(0, 8)}...` : '';
+    }
+
+    async function loadList() {
+      const res = await fetch('/api/logs?limit=100');
+      const data = await res.json();
+      rowsEl.innerHTML = '';
+
+      for (const item of data.items || []) {
+        const tr = document.createElement('tr');
+        tr.style.cursor = 'pointer';
+        tr.innerHTML = `
+          <td><div>${escapeHtml(item.created_at || '')}</div><div class="muted">${escapeHtml(item.user || '')}</div></td>
+          <td>
+            <div><code class="inline">${escapeHtml(shortId(item.id))}</code></div>
+            <div class="message">${escapeHtml(item.raw_message || '')}</div>
+          </td>
+          <td>${escapeHtml(item.operation || '')}</td>
+          <td><span class="status ${escapeHtml(item.status || '')}">${escapeHtml(item.status || '')}</span></td>
+        `;
+        tr.addEventListener('click', () => loadDetail(item.id));
+        rowsEl.appendChild(tr);
+      }
+
+      if (!rowsEl.children.length) {
+        rowsEl.innerHTML = '<tr><td colspan="4" class="empty">No requests yet.</td></tr>';
+      }
+    }
+
+    async function loadDetail(requestId) {
+      currentId = requestId;
+      detailTitleEl.innerHTML = `<strong>Request ${escapeHtml(requestId)}</strong>`;
+      detailSubEl.textContent = 'Loading...';
+      detailJsonEl.textContent = '';
+      detailLinksEl.innerHTML = `
+        <a class="button" href="/logs/${encodeURIComponent(requestId)}" target="_blank" rel="noreferrer">JSON</a>
+        <a class="button" href="/logs/${encodeURIComponent(requestId)}/view" target="_blank" rel="noreferrer">Page</a>
+      `;
+
+      try {
+        const res = await fetch(`/logs/${encodeURIComponent(requestId)}`);
+        const data = await res.json();
+        detailSubEl.textContent = `${data.events?.length || 0} events`;
+        detailJsonEl.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        detailSubEl.textContent = 'Failed to load';
+        detailJsonEl.textContent = `Error: ${err}`;
+      }
+    }
+
+    refreshBtn.addEventListener('click', async () => {
+      await loadList();
+      if (currentId) await loadDetail(currentId);
+    });
+
+    (async function init() {
+      await loadList();
+    })();
+  </script>
+</body>
+</html>
+
