@@ -7,6 +7,8 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
+from .operations import confirm_rate_plan_change, preview_rate_plan_change
+
 try:
     from mcp.server import fastmcp
 except Exception:
@@ -117,6 +119,39 @@ async def cc_get_devices_modified_since(modifiedSince: str, accountId: Optional[
 
     session_id = get_mcp_session_id(request)
     return JSONResponse(status_code=200, content=content, headers={"Mcp-Session-Id": session_id})
+
+
+@app.post("/cc/rate-plan/preview")
+async def cc_preview_rate_plan(payload: dict, request: Request, authorization: Optional[str] = Header(None)):
+    await verify_mcp_auth(authorization)
+    result = await preview_rate_plan_change(
+        identifiers=payload.get("identifiers", ""),
+        targetRatePlan=payload.get("targetRatePlan", ""),
+        accountId=payload.get("accountId"),
+        requestedBy=payload.get("requestedBy"),
+        reason=payload.get("reason"),
+    )
+    session_id = get_mcp_session_id(request)
+    status_code = 200 if result.get("status") in {"READY_FOR_CONFIRMATION", "CONFIGURATION_REQUIRED", "BLOCKED"} else 500
+    return JSONResponse(status_code=status_code, content=result, headers={"Mcp-Session-Id": session_id})
+
+
+@app.post("/cc/rate-plan/confirm")
+async def cc_confirm_rate_plan(payload: dict, request: Request, authorization: Optional[str] = Header(None)):
+    await verify_mcp_auth(authorization)
+    operation_id = payload.get("operationId")
+    confirmed_by = payload.get("confirmedBy")
+    if not operation_id or not confirmed_by:
+        raise HTTPException(status_code=400, detail="operationId and confirmedBy are required")
+
+    try:
+        result = await confirm_rate_plan_change(operationId=operation_id, confirmedBy=confirmed_by)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+    session_id = get_mcp_session_id(request)
+    status_code = 200 if result.get("status") in {"COMPLETED", "FAILED", "CONFIGURATION_REQUIRED"} else 500
+    return JSONResponse(status_code=status_code, content=result, headers={"Mcp-Session-Id": session_id})
 
 
 # Mount MCP streamable HTTP app at /mcp if available

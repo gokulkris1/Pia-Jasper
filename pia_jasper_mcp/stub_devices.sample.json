@@ -1,0 +1,26 @@
+[
+  {
+    "accountId": "3ie-demo",
+    "accountName": "3IE Internal Demo Account",
+    "iccid": "8944500100000000001",
+    "imsi": "310150123456789",
+    "msisdn": "15551230001",
+    "ratePlan": "Demo-Basic-1GB"
+  },
+  {
+    "accountId": "3ie-demo",
+    "accountName": "3IE Internal Demo Account",
+    "iccid": "8944500100000000002",
+    "imsi": "310150123456790",
+    "msisdn": "15551230002",
+    "ratePlan": "Demo-Plus-5GB"
+  },
+  {
+    "accountId": "dummy-account",
+    "accountName": "Dummy Test Account",
+    "iccid": "8944500100000000099",
+    "imsi": "310150123456799",
+    "msisdn": "15551230099",
+    "ratePlan": "Dummy-Shared-1GB"
+  }
+]

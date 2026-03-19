@@ -4,6 +4,8 @@ from typing import Optional, Set
 
 import httpx
 
+from .operations import confirm_rate_plan_change, preview_rate_plan_change
+
 try:
     # preferred import
     from mcp.server.fastmcp import FastMCP
@@ -103,19 +105,43 @@ def main():
         async with httpx.AsyncClient(timeout=20.0) as client:
             return await _fetch_json(client, url, params=params)
 
+    async def cc_preview_rate_plan_change(
+        identifiers: str,
+        targetRatePlan: str,
+        accountId: Optional[str] = None,
+        requestedBy: Optional[str] = None,
+        reason: Optional[str] = None,
+    ):
+        return await preview_rate_plan_change(
+            identifiers=identifiers,
+            targetRatePlan=targetRatePlan,
+            accountId=accountId,
+            requestedBy=requestedBy,
+            reason=reason,
+        )
+
+    async def cc_confirm_rate_plan_change(operationId: str, confirmedBy: str):
+        return await confirm_rate_plan_change(operationId=operationId, confirmedBy=confirmedBy)
+
     # Register tools - try decorator style or explicit registration
     ok1 = _register_tool(server, "cc_echo", cc_echo)
     ok2 = _register_tool(server, "cc_get_devices_modified_since", cc_get_devices_modified_since)
+    ok3 = _register_tool(server, "cc_preview_rate_plan_change", cc_preview_rate_plan_change)
+    ok4 = _register_tool(server, "cc_confirm_rate_plan_change", cc_confirm_rate_plan_change)
 
-    if not (ok1 and ok2):
+    if not (ok1 and ok2 and ok3 and ok4):
         # best-effort: attempt to attach to server.tools dict if present
         if hasattr(server, "tools") and isinstance(server.tools, dict):
             server.tools["cc_echo"] = cc_echo
             server.tools["cc_get_devices_modified_since"] = cc_get_devices_modified_since
+            server.tools["cc_preview_rate_plan_change"] = cc_preview_rate_plan_change
+            server.tools["cc_confirm_rate_plan_change"] = cc_confirm_rate_plan_change
         else:
             # fallback: try to set attributes
             setattr(server, "cc_echo", cc_echo)
             setattr(server, "cc_get_devices_modified_since", cc_get_devices_modified_since)
+            setattr(server, "cc_preview_rate_plan_change", cc_preview_rate_plan_change)
+            setattr(server, "cc_confirm_rate_plan_change", cc_confirm_rate_plan_change)
 
     # Start the MCP server using stdio transport
     # Try top-level mcp.run first (with flexible signature), then server.run

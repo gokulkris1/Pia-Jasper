@@ -2,9 +2,8 @@ import subprocess
 import sys
 import uuid
 import json
-import shlex
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Dict
 
 
 def parse_input(text: str) -> Dict[str, str]:
@@ -128,6 +127,24 @@ def run():
             params = {"modifiedSince": modifiedSince}
             if accountId is not None:
                 params["accountId"] = accountId
+        elif operation == "PREVIEW_RATE_PLAN_CHANGE":
+            tool = "cc_preview_rate_plan_change"
+            params = {
+                "identifiers": data.get("identifiers", ""),
+                "targetRatePlan": data.get("targetRatePlan", ""),
+            }
+            if data.get("accountId") is not None:
+                params["accountId"] = data.get("accountId")
+            if data.get("requestedBy") is not None:
+                params["requestedBy"] = data.get("requestedBy")
+            if data.get("reason") is not None:
+                params["reason"] = data.get("reason")
+        elif operation == "CONFIRM_RATE_PLAN_CHANGE":
+            tool = "cc_confirm_rate_plan_change"
+            params = {
+                "operationId": data.get("operationId", ""),
+                "confirmedBy": data.get("confirmedBy", ""),
+            }
         else:
             raise ValueError(f"Unknown operation: {operation}")
 

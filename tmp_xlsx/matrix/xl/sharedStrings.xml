@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="1825" uniqueCount="170"><si><t>Echo</t></si><si><t>GetGlobalSimTransferStatus</t></si><si><t>GetInvoice</t></si><si><t>GetModifiedSMS</t></si><si><t>GetModifiedTerminals</t></si><si><t>GetNetworkAccessConfig</t></si><si><t>Edit Device Details</t></si><si><t>Get Device Details</t></si><si><t>Get Device Usage</t></si><si><t>Get Device Usage by Zone</t></si><si><t>Get SMS Details</t></si><si><t>Get Session Details</t></si><si><t>Search Devices</t></si><si><t>Search SMS</t></si><si><t>Send SMS</t></si><si><t>Service Provider Roles</t></si><si><t>X</t></si><si><t>REST APIs/Roles Matrix</t></si><si><t>Trial
+User</t></si><si><t>Account Roles</t></si><si><t>Customer Roles</t></si><si><t>Get Device Audit History</t></si><si><t>AccountTransfer</t></si><si><t>ActivateTerminalEvent</t></si><si><t>AddCustomSubscriberCharge</t></si><si><t>AddTerminal</t></si><si><t>AssignOrUpdateIPAddress</t></si><si><t>AssignOrUpdateIPAddressEndPoint</t></si><si><t>CancelGlobalSimTransfer</t></si><si><t>ChangeImei</t></si><si><t>CreateAccount</t></si><si><t>CreateUser</t></si><si><t>DeactivateTerminal</t></si><si><t>DeleteTerminalEvent</t></si><si><t>EditAccount</t></si><si><t>EditLinePayStatus</t></si><si><t>EditNetworkAccessConfig</t></si><si><t>EditTerminal</t></si><si><t>EditTerminalRating</t></si><si><t>EquipmentOrderShipmentNotification</t></si><si><t>GetPeeredAccounts</t></si><si><t>GetTerminalLatestRegistration</t></si><si><t>GetAccountIdbyAccountName</t></si><si><t>GetAlertDetails</t></si><si><t>GetAlerts</t></si><si><t>GetAvailableEvents</t></si><si><t>GetCarrier</t></si><si><t>GetExtendedTerminalDetails</t></si><si><t>GetSessionInfo</t></si><si><t>GetSMSDetails</t></si><si><t>GetTerminalDetails</t></si><si><t>GetTerminalEvents</t></si><si><t>GetTerminalRating</t></si><si><t>GetTerminalsByImsi</t></si><si><t>GetTerminalsByMsisdn</t></si><si><t>GetTerminalsBySecureSimId</t></si><si><t>GetTerminalUsage</t></si><si><t>GetTerminalUsageDataDetails</t></si><si><t>GetTerminalUsageSMSDetails</t></si><si><t>GetTerminalUsageVoiceDetails</t></si><si><t>GetUserSession</t></si><si><t>QueueTerminalRatePlan</t></si><si><t>RemoveRatePlanFromQueue</t></si><si><t>ResetUserPassword</t></si><si><t>SendBulkSMS</t></si><si><t>SendBulkSMSToMsisdn</t></si><si><t>SendCancelLocation</t></si><si><t>SendIPMessage</t></si><si><t>SendSMS</t></si><si><t>SetAccountPeerStatus</t></si><si><t>Sim Location Service</t></si><si><t>TransferGlobalSim</t></si><si><t>TransferSimsToAccount</t></si><si><t>TransferTerminalAccountNoSimStatus</t></si><si><t>UpdateImsiDetails</t></si><si><t>UpdateSecureSim</t></si><si><t>x</t></si><si><t>SOAP APIs/Roles Matrix</t></si><si><t>SendSMStoMsisdn</t></si><si><t>Accounts</t></si><si><t>Create Account</t></si><si><t>Edit Account Details</t></si><si><t>Get Account Details</t></si><si><t>API Key</t></si><si><t>Devices</t></si><si><t>SMS Messages</t></si><si><t>Get All Accounts</t></si><si><t>Users</t></si><si><t>Get All User Details</t></si><si><t>Get User Details</t></si><si><t>Reset User Password</t></si><si><t>Delete User</t></si><si><t>Create User</t></si><si><t>Edit User Details</t></si><si><t>Get Device Location</t></si><si><t>Get Account Application Settings</t></si><si><t>Edit Account Application Settings</t></si><si><t>Get Account Billing Settings</t></si><si><t>Edit Account Billing Settings</t></si><si><t>Edit Available Rate Plans for an Account</t></si><si><t>Customer</t></si><si><t>Create a Customer</t></si><si><t>Edit Customer Details</t></si><si><t>Get Customer Details</t></si><si><t>Get Available Rate Plans for an Account</t></si><si><t>ServiceProvider AccountRep</t></si><si><t>ServiceProvider 
+Admin</t></si><si><t>ServiceProvider
+CSRUser</t></si><si><t>ServiceProvider
+DataHelpDesk</t></si><si><t>ServiceProvider
+DevicesOrders</t></si><si><t>ServiceProvider
+Finance</t></si><si><t>ServiceProvider
+FinanceApproval</t></si><si><t>ServiceProvider
+FinanceOperations</t></si><si><t>ServiceProvider
+GlobalAdmin</t></si><si><t>ServiceProvider
+ReadOnly</t></si><si><t>SPSecurity
+Admin</t></si><si><t>SPSecurity
+AdminApprover</t></si><si><t>ServiceProvider
+Service Admin</t></si><si><t>ServiceProvider
+SupportOnly</t></si><si><t>ServiceProvider
+TechSupport</t></si><si><t>ServiceProvider
+User</t></si><si><t>Account
+Admin</t></si><si><t>Account
+APIOnly</t></si><si><t>Account
+Demo</t></si><si><t>Account
+Finance</t></si><si><t>Account
+FinanceApproval</t></si><si><t>AccountFinance ReadOnly</t></si><si><t>Account
+GlobalAdmin</t></si><si><t>Account
+LBSUser</t></si><si><t>Account
+OrgAdmin</t></si><si><t>Account
+ReadOnly</t></si><si><t>Account
+SecurityAdmin</t></si><si><t>AccountSecurity 
+AdminApprover</t></si><si><t>Account
+SIMOrder</t></si><si><t>Account
+User</t></si><si><t>Customer
+Admin</t></si><si><t>Customer
+Demo</t></si><si><t>Customer
+ReadOnly</t></si><si><t>Customer
+Supervisor</t></si><si><t>Customer
+TerminalEdit</t></si><si><t>Customer
+TrialUser</t></si><si><t>Customer
+User</t></si><si><t>Reset API Key for Current User</t></si><si><t>Create/Reset API Key for Given User</t></si><si><t>Get API Key*</t></si><si><t>Usages</t></si><si><t>Get Usages by Rate Plan</t></si><si><t>Rate Plans</t></si><si><t>Get Rate Plans</t></si><si><t>Control Center</t></si><si><t>Account
+Support</t></si><si><t>ServiceProvider 3PLAdmin</t></si><si><t>UpdateOrderStatus</t></si><si><t>GetGlobalTransferSimStatus</t></si><si><t>© 2021 Cisco Systems, Inc. Cisco Confidential. 
+All rights reserved. August 17, 2021</t></si><si><t>* Administrator users can get API keys for API users who do not also have web interface access.</t></si><si><t>Transfer Device to Account</t></si><si><t>Get Event Rate Plans Assigned to Device</t></si><si><t>Assign Event Rate Plan to Device</t></si><si><t>Edit Event Rate Plan/Device Assignment</t></si><si><t>© 2022 Cisco Systems, Inc. Cisco Confidential. 
+All rights reserved. April 29, 2024</t></si><si><t>Get Aggregated Usage Details</t></si><si><t>Get Device Subscriptions</t></si><si><t>Get Top K Usage Details</t></si><si><t>Dynamic Reporting</t></si><si><t>Create Device Report</t></si><si><t>Create Aggregated Billing Report</t></si><si><t>Create Aggregated Usage Report</t></si><si><t>Get Report Status</t></si><si><t>Get Device Details by EID</t></si></sst>
