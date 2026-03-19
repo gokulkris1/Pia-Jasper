@@ -1,0 +1,2 @@
+# Development dependencies for running tests and linting
+pytest

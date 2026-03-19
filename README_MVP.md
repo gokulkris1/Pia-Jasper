@@ -65,6 +65,25 @@ python -m uvicorn mvp_ops_executor.app:app --reload
 
 Open `http://127.0.0.1:8000/`.
 
+---
+
+### Running Tests
+
+A suite of unit and integration tests is included under the `tests/` directory. To run them:
+
+1. Install dev dependencies:
+   ```powershell
+   python -m pip install -r requirements-dev.txt
+   ```
+2. Execute pytest:
+   ```powershell
+   python -m pytest tests/  # or simply `pytest` if installed globally
+   ```
+
+Tests cover parsers, connectors, and API endpoints. Ensure `pytest` is available in your Python environment before running.
+
+For Cisco Jasper integration, set up `JASPER_BASE_URL` and `JASPER_API_TOKEN` in `.env` and add connector-specific tests.
+
 ## Demo flow (required MVP scenario)
 
 1. In the chat page, send:
